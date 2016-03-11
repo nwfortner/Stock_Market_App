@@ -85,7 +85,6 @@ function requestNews(item, index) {
       parsedNews[index] = JSON.parse(this.responseText);
       populateNews();
       newsNames.forEach(requestVideos);
-      populateVideos();
     }
   };
 }
@@ -113,8 +112,8 @@ function populateNews() {
   }
 }
 
-// requestVideos and populateVideos are called in requestNews function.
-// once JSON data is recieved from requestVideos populateVideos setx the data in the Web page video feed.
+// requestVideos is called in requestNews function to get a feed of videos from Bing Search Api.
+// once JSON data is recieved from requestVideos, populateVideos set the data in the Web page video feed.
 var parsedVideos = [];
 
 function requestVideos(item, index) {
@@ -126,6 +125,7 @@ function requestVideos(item, index) {
   news.onreadystatechange = function() {
     if(this.readyState == 4 && this.status == 200) {
       parsedVideos[index] = JSON.parse(this.responseText);
+      populateVideos();
     }
   };
 }
@@ -148,7 +148,7 @@ function populateVideos() {
   }
 }
 
-//sym[index].addEventListener are event listeners that listen for .click on the stock symbols allowing the user to change the stocks they are monitoring. 
+//sym[index].addEventListener are event listeners that listen for .click on the stock symbols allowing the user to change the stocks they are monitoring.
 sym[0].addEventListener("click", function() {
   if(confirm("\nWould you like to change this stock?\n\n")) {
     var result = prompt("\nWhat is the stock symbol of the company you'd like to replace " + this.textContent + " with?\n\n");
