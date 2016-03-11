@@ -1,4 +1,4 @@
-// function and variable for gettting, parsing, and storing global stock info
+// function and variable for gettting, parsing, and storing stock ticker info
 var stockInfoJSON;
 
 var stockList;
@@ -12,6 +12,8 @@ var newsNames = [];
 
 var stocks = [];
 
+// setStockData sets the data in the stock tickers on the Web page once the quotes are requested by function requestStockInfo and recieved then stored by function getQuote.
+// on load the stock symbols the request are made for are either preloaded, if its the first load or, pulled from localStorage if the page had been loaded and/or altered by the user.
 var setStockData = function() {
   for(var i = 0; i < stocks.length; i++) {
     document.querySelectorAll(".stockTable .name")[i].textContent = stocks[i].stockName;
@@ -40,8 +42,6 @@ function getQuote() {
   }
 }
 
-
-
 function requestStockInfo() {
   var stockRequest = new XMLHttpRequest();
   stockRequest.overrideMimeType("application/json");
@@ -52,7 +52,7 @@ function requestStockInfo() {
 requestStockInfo();
 
 
-// this is a constructor function for the stock data object
+// this is a constructor function for the stock data object.
 function StockData (stockSym, stockName, stockPrice, marketCap, daysHigh, daysLow) {
   this.stockSym = stockSym;
   this.stockName = stockName;
@@ -62,7 +62,7 @@ function StockData (stockSym, stockName, stockPrice, marketCap, daysHigh, daysLo
   this.daysLow = daysLow;
 }
 
-// populate stock data table @caption with stock symbols from @stockList
+// populate Web page with stock symbols from stockList array.
 var sym = document.querySelectorAll(".sym");
 function setSym() {
   for(var i = 0; i < sym.length; i++) {
@@ -71,7 +71,7 @@ function setSym() {
 }
 setSym();
 
-
+// function requestNews makes an http request for every item in the newsNames array, which is set during in function getQuote and populated based on the .Name value in the stock ticker JSON data.
 var parsedNews = [];
 
 function requestNews(item, index) {
@@ -92,7 +92,7 @@ function requestNews(item, index) {
 
 
 
-
+// populateNews is called during the requestNews.onreadystatechange and fills the Web page news feeds with articles.
 function populateNews() {
   if(parsedNews.length === 6 && parsedNews[5].d.results[0].News[14].Title !== undefined) {
     var n = 0;
@@ -113,6 +113,8 @@ function populateNews() {
   }
 }
 
+// requestVideos and populateVideos are called in requestNews function.
+// once JSON data is recieved from requestVideos populateVideos setx the data in the Web page video feed.
 var parsedVideos = [];
 
 function requestVideos(item, index) {
@@ -146,7 +148,7 @@ function populateVideos() {
   }
 }
 
-
+//sym[index].addEventListener are event listeners that listen for .click on the stock symbols allowing the user to change the stocks they are monitoring. 
 sym[0].addEventListener("click", function() {
   if(confirm("\nWould you like to change this stock?\n\n")) {
     var result = prompt("\nWhat is the stock symbol of the company you'd like to replace " + this.textContent + " with?\n\n");
