@@ -150,18 +150,6 @@ function setVideoData() {
   });
 }
 
-requestStockInfo().then(function(value) {
-  return Promise.all([newsPromise(newsNames), videoPromise(newsNames)]);
-}).then(function() {
-  createCluster();
-  createNewsFeed();
-  createVideoFeed();
-  setStockData();
-  setNewsData();
-  setVideoData();
-  stockList.forEach(symChangeEventConstructor);
-});
-
 function symChangeEventConstructor(item, index) {
   var sym = document.querySelectorAll(".sym");
   sym[index].addEventListener("click", function() {
@@ -180,3 +168,15 @@ function symChangeEventConstructor(item, index) {
     }
   });
 }
+
+requestStockInfo().then(function(value) {
+  return Promise.all([newsPromise(newsNames), videoPromise(newsNames)]);
+}).then(function() {
+  createCluster();
+  createNewsFeed();
+  createVideoFeed();
+  setStockData();
+  setNewsData();
+  setVideoData();
+  stockList.forEach(symChangeEventConstructor);
+});
